@@ -390,12 +390,71 @@
     }));
   });
 
+  document.querySelectorAll("[data-mascot-like]").forEach((button) => {
+    const controls = button.closest("[data-mascot-like-controls]");
+    const label = button.querySelector("[data-mascot-like-label]");
+    const note = controls.querySelector("[data-mascot-like-note]");
+    const storageKey = `pairs-lab:mascot-like:v1:${button.dataset.mascotLike}`;
+    let liked = false;
+    let canPersist = true;
+
+    const renderLike = () => {
+      button.setAttribute("aria-pressed", String(liked));
+      label.textContent = liked ? "Liked" : "Like";
+      note.textContent = canPersist
+        ? "Likes are saved in this browser."
+        : "Likes are kept for this visit only.";
+    };
+
+    const readLike = () => {
+      try {
+        liked = window.localStorage.getItem(storageKey) === "1";
+        canPersist = true;
+      } catch {
+        canPersist = false;
+      }
+      renderLike();
+    };
+
+    button.addEventListener("click", () => {
+      liked = !liked;
+      try {
+        if (liked) window.localStorage.setItem(storageKey, "1");
+        else window.localStorage.removeItem(storageKey);
+        canPersist = true;
+      } catch {
+        canPersist = false;
+      }
+      renderLike();
+      button.dispatchEvent(new CustomEvent("pairs:mascot-like", {
+        bubbles: true,
+        detail: { id: button.dataset.mascotLike, liked, canPersist },
+      }));
+    });
+
+    document.addEventListener("pairs:mascot-like", (event) => {
+      if (event.detail.id !== button.dataset.mascotLike) return;
+      liked = event.detail.liked;
+      canPersist = event.detail.canPersist;
+      renderLike();
+    });
+
+    window.addEventListener("storage", (event) => {
+      if (event.key === storageKey || event.key === null) readLike();
+    });
+
+    readLike();
+    controls.hidden = false;
+  });
+
   const peopleDirectories = Array.from(document.querySelectorAll("[data-people-directory]"));
   peopleDirectories.forEach((directory) => {
     const viewButtons = Array.from(directory.querySelectorAll("[data-people-view]"));
     const viewPanels = Array.from(directory.querySelectorAll("[data-people-view-panel]"));
 
     const showDirectoryView = (view) => {
+      if (!viewButtons.some((button) => button.dataset.peopleView === view)) return;
+
       viewButtons.forEach((button) => {
         const isActive = button.dataset.peopleView === view;
         button.classList.toggle("is-active", isActive);
@@ -410,9 +469,34 @@
       window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
     };
 
+    const selectDirectoryView = (button) => {
+      const view = button.dataset.peopleView;
+      showDirectoryView(view);
+      window.history.replaceState(window.history.state, "", `#${view}`);
+    };
+
     viewButtons.forEach((button) => {
-      button.addEventListener("click", () => showDirectoryView(button.dataset.peopleView));
+      button.addEventListener("click", () => selectDirectoryView(button));
+      button.addEventListener("keydown", (event) => {
+        const index = viewButtons.indexOf(button);
+        const nextIndex = {
+          ArrowLeft: (index - 1 + viewButtons.length) % viewButtons.length,
+          ArrowRight: (index + 1) % viewButtons.length,
+          Home: 0,
+          End: viewButtons.length - 1,
+        }[event.key];
+        if (nextIndex === undefined) return;
+        event.preventDefault();
+        const nextButton = viewButtons[nextIndex];
+        selectDirectoryView(nextButton);
+        nextButton.focus();
+      });
     });
+
+    const showLinkedView = () => showDirectoryView(window.location.hash.slice(1) || "people");
+    showDirectoryView("people");
+    showLinkedView();
+    window.addEventListener("hashchange", showLinkedView);
   });
 
   const publicationList = document.querySelector("[data-publication-list]");

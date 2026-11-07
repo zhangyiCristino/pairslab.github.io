@@ -11,7 +11,7 @@
       <p class="news-article-summary">{{ .Params.summary | default .Description }}</p>
       {{ if ne .Params.show_cover false }}
         {{ with $newsImage }}
-          <figure class="news-article-cover">
+          <figure class="news-article-cover{{ if eq $.Params.image_fit "contain" }} is-contained{{ end }}">
             <img src="{{ . }}" alt="{{ $.Title }}" decoding="async" fetchpriority="high">
           </figure>
         {{ end }}
@@ -23,6 +23,7 @@
     <div class="news-article-shell">
       <div class="news-article-content reveal">
         {{ .Content }}
+        {{ partial "news-media.html" . }}
         {{ with .Params.external_url }}
           <a class="button button-primary news-source-link" href="{{ . }}" target="_blank" rel="noreferrer">
             {{ $.Params.external_label | default "View original source" }} <span aria-hidden="true">↗</span>

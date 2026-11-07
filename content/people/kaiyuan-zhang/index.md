@@ -1,5 +1,9 @@
 ---
 title: Kaiyuan Zhang
+draft: true
+build:
+  list: never
+  render: never
 description: Kaiyuan Zhang is an Intern at PAIRS Lab, HKUST(GZ).
 group: intern
 weight: 100

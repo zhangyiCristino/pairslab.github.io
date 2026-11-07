@@ -51,7 +51,7 @@
           {{ $newsImage := partial "news-image-url.html" . }}
           <a class="news-row{{ if $newsImage }} has-image{{ end }} reveal" href="{{ .RelPermalink }}">
             {{ with $newsImage }}
-              <span class="news-row-media">
+              <span class="news-row-media{{ if eq $newsPage.Params.image_fit "contain" }} is-contained{{ end }}">
                 <img src="{{ . }}" alt="{{ $newsPage.Title }}" loading="lazy" decoding="async">
               </span>
             {{ end }}

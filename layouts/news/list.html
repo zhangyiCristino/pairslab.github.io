@@ -53,7 +53,7 @@
             data-year="{{ .Date.Format "2006" }}"
             data-category="{{ .Params.category }}">
             {{ with $newsImage }}
-              <span class="news-row-media">
+              <span class="news-row-media{{ if eq $newsPage.Params.image_fit "contain" }} is-contained{{ end }}">
                 <img src="{{ . }}" alt="{{ $newsPage.Title }}" loading="lazy" decoding="async">
               </span>
             {{ end }}

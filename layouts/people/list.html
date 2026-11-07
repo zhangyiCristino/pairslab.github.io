@@ -12,7 +12,7 @@
     <div class="section-shell" data-people-directory>
       <header class="people-directory-intro">
         <h1>Member</h1>
-        <p>Meet the members working on Physical AI and robotic systems at PAIRS Lab.</p>
+        <p>Meet the people, explore the platforms, and get to know the mascots of PAIRS Lab.</p>
       </header>
 
       <div class="people-type-switch" role="tablist" aria-label="Choose directory type">
@@ -21,6 +21,9 @@
         </button>
         <button type="button" role="tab" aria-selected="false" aria-controls="people-directory-machines" data-people-view="machines">
           <span>Robots &amp; Infrastructure</span>
+        </button>
+        <button id="people-tab-mascots" type="button" role="tab" aria-selected="false" aria-controls="people-directory-mascots" data-people-view="mascots">
+          <span>Lab Mascots</span>
         </button>
       </div>
 
@@ -45,6 +48,18 @@
         {{ partial "people-carousel.html" (dict
           "pages" $machines
           "label" "PAIRS Lab robots and research infrastructure"
+        ) }}
+      </section>
+
+      <section class="people-original-panel" id="people-directory-mascots" role="tabpanel" aria-labelledby="people-tab-mascots" data-people-view-panel="mascots" hidden>
+        <div class="people-original-panel-heading">
+          <p class="section-kicker">03 / LAB MASCOTS</p>
+          <h2>Lab Mascots</h2>
+        </div>
+        {{ partial "people-carousel.html" (dict
+          "mascots" site.Data.mascots
+          "label" "PAIRS Lab mascots"
+          "itemLabel" "mascot"
         ) }}
       </section>
     </div>

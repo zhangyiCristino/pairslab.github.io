@@ -1,5 +1,7 @@
 {{ $pi := .pi }}
 {{ $pages := .pages }}
+{{ $mascots := .mascots }}
+{{ $itemLabel := .itemLabel | default "profile" }}
 
 {{ if .search }}
   <div class="people-member-search" data-member-search hidden>
@@ -36,22 +38,34 @@
           <span class="people-carousel-card-name">{{ .Title }}</span>
         </button>
       {{ end }}
+
+      {{ range $mascots }}
+        <button class="people-carousel-card is-mascot" type="button" data-people-card aria-label="Show {{ .name }}">
+          <span class="people-carousel-photo">
+            <img src="{{ .image | relURL }}" alt="{{ .name }}" width="{{ .width }}" height="{{ .height }}" loading="lazy" decoding="async">
+          </span>
+          <span class="people-carousel-card-name">{{ .name }}</span>
+        </button>
+      {{ end }}
     </div>
   </div>
 
-  <button class="people-carousel-arrow people-carousel-prev" type="button" aria-label="Previous profile" data-people-prev>
+  <button class="people-carousel-arrow people-carousel-prev" type="button" aria-label="Previous {{ $itemLabel }}" data-people-prev>
     <span aria-hidden="true">&#9664;</span>
   </button>
-  <button class="people-carousel-arrow people-carousel-next" type="button" aria-label="Next profile" data-people-next>
+  <button class="people-carousel-arrow people-carousel-next" type="button" aria-label="Next {{ $itemLabel }}" data-people-next>
     <span aria-hidden="true">&#9654;</span>
   </button>
 
-  <div class="people-carousel-dots" aria-label="Choose a profile" data-people-dots>
+  <div class="people-carousel-dots" aria-label="Choose a {{ $itemLabel }}" data-people-dots>
     {{ range $pi }}
       <button type="button" data-people-dot aria-label="Show {{ .name }}"></button>
     {{ end }}
     {{ range $pages }}
       <button type="button" data-people-dot aria-label="Show {{ .Title }}"></button>
+    {{ end }}
+    {{ range $mascots }}
+      <button type="button" data-people-dot aria-label="Show {{ .name }}"></button>
     {{ end }}
   </div>
 
@@ -80,6 +94,23 @@
         {{ end }}
         {{ with .Plain }}<p class="people-carousel-bio">{{ . | htmlUnescape }}</p>{{ end }}
         <a class="people-profile-link" href="{{ .RelPermalink }}">View profile <span aria-hidden="true">&#8599;</span></a>
+      </article>
+    {{ end }}
+
+    {{ range $mascots }}
+      <article class="people-carousel-detail" data-people-detail>
+        <p class="people-carousel-role">Lab Mascot</p>
+        <h2>{{ .name }}</h2>
+        {{ if ne .name .english_name }}<p class="people-carousel-meta">{{ .english_name }}</p>{{ end }}
+        <div class="mascot-like" data-mascot-like-controls hidden>
+          <button class="mascot-like-button" type="button" data-mascot-like="{{ .id }}" aria-pressed="false" aria-label="Like {{ .name }}">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+              <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"></path>
+            </svg>
+            <span data-mascot-like-label>Like</span>
+          </button>
+          <p class="mascot-like-note" data-mascot-like-note>Likes are saved in this browser.</p>
+        </div>
       </article>
     {{ end }}
   </div>
