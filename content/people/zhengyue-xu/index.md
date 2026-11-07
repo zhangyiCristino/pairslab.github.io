@@ -9,6 +9,7 @@ affiliation: PAIRS Lab, HKUST(GZ)
 institution: HKUST(GZ)
 period: 2026–Present
 image: portrait.jpg
+card_image_scale: 1.12
 links:
   - label: Email
     url: mailto:zxu499@connect.hkust-gz.edu.cn

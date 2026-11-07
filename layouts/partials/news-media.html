@@ -1,0 +1,40 @@
+{{ $page := . }}
+{{ with .Params.gallery }}
+  <section class="news-media-section" aria-labelledby="news-gallery-title">
+    <h2 id="news-gallery-title">At the competition</h2>
+    <div class="news-media-grid">
+      {{ range . }}
+        {{ $item := . }}
+        {{ with $page.Resources.GetMatch .image }}
+          <figure class="news-media-item">
+            <a class="news-gallery-link" href="{{ .RelPermalink }}" target="_blank" rel="noopener" aria-label="View full photo: {{ $item.alt }}">
+              <img src="{{ .RelPermalink }}" alt="{{ $item.alt }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy" decoding="async">
+            </a>
+            {{ with $item.caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+          </figure>
+        {{ end }}
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
+{{ with .Params.videos }}
+  <section class="news-media-section" aria-labelledby="news-videos-title">
+    <h2 id="news-videos-title">{{ $page.Params.videos_heading | default "Videos" }}</h2>
+    {{ with $page.Params.videos_intro }}<p>{{ . }}</p>{{ end }}
+    <div class="news-media-grid">
+      {{ range . }}
+        {{ $item := . }}
+        {{ with $page.Resources.GetMatch .src }}
+          <figure class="news-media-item">
+            <video controls playsinline preload="none" width="{{ $item.width }}" height="{{ $item.height }}" aria-label="{{ $item.caption }}"
+              {{ with $page.Resources.GetMatch $item.poster }}poster="{{ .RelPermalink }}"{{ end }}>
+              <source src="{{ .RelPermalink }}" type="video/mp4">
+              <a href="{{ .RelPermalink }}">Download this video</a>
+            </video>
+            {{ with $item.caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+          </figure>
+        {{ end }}
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,15 @@
+- id: nailong
+  name: Nailong
+  english_name: Nailong
+  image: images/mascots/nailong.jpg
+  companion_sprite: images/mascots/companion/nailong-atlas.png
+  width: 1159
+  height: 1358
+
+- id: lulu
+  name: Lulu
+  english_name: Lulu
+  image: images/mascots/lulu.png
+  companion_sprite: images/mascots/companion/lulu-atlas.png
+  width: 1254
+  height: 1254

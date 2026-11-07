@@ -1,0 +1,56 @@
+<aside class="lab-companion" data-lab-companion data-mood="idle" aria-label="PAIRS Lab companion" hidden>
+  <button class="companion-launcher" type="button" data-companion-open aria-label="Open lab companion" hidden>
+    <span class="companion-mini-sprite" data-companion-art aria-hidden="true"></span>
+    <span class="companion-launcher-star" data-companion-badge aria-hidden="true" hidden>★</span>
+  </button>
+  <div class="companion-body" data-companion-body>
+    <div class="companion-toolbar">
+      <button type="button" class="companion-tool companion-drag" data-companion-drag aria-label="Move companion: drag or use arrow keys" title="Drag to move · Arrow keys when focused"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3"/></svg></button>
+      <button type="button" class="companion-tool" data-companion-menu aria-label="Open companion menu" aria-controls="companion-panel" aria-expanded="false" title="Play & explore"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 3v-3H3V6a2 2 0 0 1 2-2Z"/><path d="M7 9h10M7 13h6"/></svg></button>
+      <button type="button" class="companion-tool" data-companion-minimize aria-label="Minimize companion" title="Minimize"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+    </div>
+    <button class="companion-pet" type="button" data-companion-pet aria-label="Pet your lab companion"><span class="companion-sprite" data-companion-art aria-hidden="true"></span><span class="companion-explorer-star" data-companion-badge aria-hidden="true" hidden>★</span></button>
+    <button class="companion-name" type="button" data-companion-menu aria-controls="companion-panel" aria-expanded="false"><span data-companion-name>Lab buddy</span> <span aria-hidden="true">⌃</span></button>
+    <div class="companion-speech" data-companion-speech role="status" hidden></div>
+  </div>
+  <section class="companion-panel" id="companion-panel" data-companion-panel role="dialog" aria-modal="false" aria-labelledby="companion-title" hidden>
+    <header class="companion-panel-header"><div><p>Your lab buddy</p><h2 id="companion-title" data-companion-title>Nailong</h2></div><button type="button" class="companion-tool" data-companion-close aria-label="Close companion menu">×</button></header>
+    <div class="companion-character-switch" role="group" aria-label="Choose your companion">
+      {{ range site.Data.mascots }}
+        <button type="button" data-companion-character="{{ .id }}" data-name="{{ .name }}" data-english-name="{{ .english_name }}" data-sprite="{{ .companion_sprite | relURL }}" aria-pressed="false">{{ .name }}</button>
+      {{ end }}
+    </div>
+    <div class="companion-actions" aria-label="Play with your companion">
+      <button type="button" data-companion-action="pet"><span aria-hidden="true">♡</span> Pet</button>
+      <button type="button" data-companion-action="wave"><span aria-hidden="true">👋</span> Wave</button>
+      <button type="button" data-companion-action="sleep"><span aria-hidden="true">☾</span> Nap</button>
+      <button type="button" data-companion-action="feed" hidden><span aria-hidden="true">🍊</span> Feed Lulu</button>
+    </div>
+    {{ range site.Data.mascots }}
+      <div class="companion-like-row" data-companion-like-row="{{ .id }}" hidden>
+        <div class="mascot-like" data-mascot-like-controls hidden>
+          <button class="mascot-like-button" type="button" data-mascot-like="{{ .id }}" aria-pressed="false" aria-label="Like {{ .name }}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span data-mascot-like-label>Like</span></button>
+          <p class="mascot-like-note" data-mascot-like-note>Likes are saved in this browser.</p>
+        </div>
+      </div>
+    {{ end }}
+    <nav class="companion-guide" aria-label="Explore PAIRS Lab">
+      <a href="{{ "research/#research-directions" | relURL }}">Explore research <span aria-hidden="true">↗</span></a>
+      <a href="{{ "publications/" | relURL }}">Read a paper <span aria-hidden="true">↗</span></a>
+      <a href="{{ "join/" | relURL }}">Join the lab <span aria-hidden="true">↗</span></a>
+    </nav>
+    <div class="companion-quest">
+      <div class="companion-quest-heading"><strong data-companion-quest-title>Lab explorer</strong><span data-companion-progress-label>0 / 4</span></div>
+      <progress data-companion-progress max="4" value="0" aria-label="Research directions explored"></progress>
+      <p data-companion-quest-description>Visit all four research directions to earn your explorer badge.</p>
+      <ol class="companion-quest-list">
+        {{ range site.Data.research }}
+          <li><a href="{{ printf "research/#%s" .id | relURL }}" data-companion-direction="{{ .id }}"><span data-companion-check aria-hidden="true">{{ .number }}</span>{{ .nav_title }}<span class="sr-only" data-companion-direction-status> — not yet explored</span></a></li>
+        {{ end }}
+      </ol>
+      <button type="button" class="companion-celebrate" data-companion-action="celebrate" hidden>★ Explorer pose unlocked</button>
+      <small data-companion-save-note>Progress is saved in this browser.</small>
+    </div>
+    <button class="companion-reset-position" type="button" data-companion-reset-position>Return to corner</button>
+  </section>
+</aside>

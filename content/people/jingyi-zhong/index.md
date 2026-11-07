@@ -1,10 +1,10 @@
 ---
 title: Jingyi Zhong
-description: Jingyi Zhong is an Intern at PAIRS Lab, HKUST(GZ).
-group: intern
+description: Jingyi Zhong is a Research Assistant at PAIRS Lab, HKUST(GZ).
+group: ra
 weight: 100
-role: Intern
-position: Intern
+role: Research Assistant
+position: Research Assistant
 affiliation: PAIRS Lab, HKUST(GZ)
 institution:
 period: 2026–Present
@@ -25,4 +25,4 @@ card_interests:
   - Embodied intelligence
 ---
 
-Jingyi Zhong received her BSc in Computer Science with Honours. She is currently an Intern at PAIRS Lab, The Hong Kong University of Science and Technology (Guangzhou). Her research interests lie at the intersection of robotics and control, with a focus on learning-based control and embodied intelligence. She has previously worked as a visiting undergraduate researcher at MURO Lab, UC San Diego.
+Jingyi Zhong received her BSc in Computer Science with Honours. She is currently a Research Assistant at PAIRS Lab, The Hong Kong University of Science and Technology (Guangzhou). Her research interests lie at the intersection of robotics and control, with a focus on learning-based control and embodied intelligence. She has previously worked as a visiting undergraduate researcher at MURO Lab, UC San Diego.

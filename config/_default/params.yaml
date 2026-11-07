@@ -6,7 +6,7 @@
 # Appearance
 
 assets:
-  version: '20260908-apply-links-v3'
+  version: '20261107-lab-companions-v1'
 
 appearance:
   theme_day: minimal

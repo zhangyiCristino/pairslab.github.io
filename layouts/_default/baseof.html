@@ -25,6 +25,10 @@
     <link rel="manifest" href="{{ "site.webmanifest" | relURL }}">
     <link rel="stylesheet" href="{{ "brand/tokens/pairs-brand-tokens.css" | relURL }}">
     <link rel="stylesheet" href="{{ printf "%s?v=%s" ("css/site.css" | relURL) $assetVersion }}">
+    {{ with resources.Get "css/companion.css" }}
+      {{ $companionStyle := . | fingerprint }}
+      <link rel="stylesheet" href="{{ $companionStyle.RelPermalink }}">
+    {{ end }}
     {{ if and .IsSection (eq .Section "research") }}
       {{ $researchStyle := resources.Get "css/research.css" | fingerprint }}
       <link rel="stylesheet" href="{{ $researchStyle.RelPermalink }}">
@@ -42,6 +46,11 @@
       {{ block "main" . }}{{ end }}
     </main>
     {{ partial "footer.html" . }}
+    {{ partial "lab-companion.html" . }}
     <script src="{{ printf "%s?v=%s" ("js/site.js" | relURL) $assetVersion }}" defer></script>
+    {{ with resources.Get "js/companion.js" }}
+      {{ $companionScript := . | fingerprint }}
+      <script src="{{ $companionScript.RelPermalink }}" defer></script>
+    {{ end }}
   </body>
 </html>
