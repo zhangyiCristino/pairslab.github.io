@@ -2,14 +2,14 @@
 title: Fangqiang Ding to serve as an Area Chair for RSS 2027
 date: 2026-10-15
 category: Academic Service
-summary: PAIRS Lab Director Fangqiang Ding will serve as an Area Chair for RSS 2027 and is recruiting reviewers for his reviewer pool until November 10, 2026.
+summary: PAIRS Lab Director Professor Fangqiang Ding will serve as an Area Chair for RSS 2027 and is recruiting reviewers for his reviewer pool until November 10, 2026.
 image: cover.jpg
 image_fit: contain
 external_url: https://roboticsconference.org/
 external_label: Visit the RSS 2027 website
 ---
 
-PAIRS Lab Director **Prof. Fangqiang Ding** will serve as an **Area Chair for Robotics: Science and Systems (RSS) 2027**, which will take place in **Athens, Greece, on July 6–11, 2027**.
+PAIRS Lab Director **Professor Fangqiang Ding** will serve as an **Area Chair for Robotics: Science and Systems (RSS) 2027**, which will take place in **Athens, Greece, on July 6–11, 2027**.
 
 ## Reviewer recruitment
 

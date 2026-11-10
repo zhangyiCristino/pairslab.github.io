@@ -390,63 +390,6 @@
     }));
   });
 
-  document.querySelectorAll("[data-mascot-like]").forEach((button) => {
-    const controls = button.closest("[data-mascot-like-controls]");
-    const label = button.querySelector("[data-mascot-like-label]");
-    const note = controls.querySelector("[data-mascot-like-note]");
-    const storageKey = `pairs-lab:mascot-like:v1:${button.dataset.mascotLike}`;
-    let liked = false;
-    let canPersist = true;
-
-    const renderLike = () => {
-      button.setAttribute("aria-pressed", String(liked));
-      label.textContent = liked ? "Liked" : "Like";
-      note.textContent = canPersist
-        ? "Likes are saved in this browser."
-        : "Likes are kept for this visit only.";
-    };
-
-    const readLike = () => {
-      try {
-        liked = window.localStorage.getItem(storageKey) === "1";
-        canPersist = true;
-      } catch {
-        canPersist = false;
-      }
-      renderLike();
-    };
-
-    button.addEventListener("click", () => {
-      liked = !liked;
-      try {
-        if (liked) window.localStorage.setItem(storageKey, "1");
-        else window.localStorage.removeItem(storageKey);
-        canPersist = true;
-      } catch {
-        canPersist = false;
-      }
-      renderLike();
-      button.dispatchEvent(new CustomEvent("pairs:mascot-like", {
-        bubbles: true,
-        detail: { id: button.dataset.mascotLike, liked, canPersist },
-      }));
-    });
-
-    document.addEventListener("pairs:mascot-like", (event) => {
-      if (event.detail.id !== button.dataset.mascotLike) return;
-      liked = event.detail.liked;
-      canPersist = event.detail.canPersist;
-      renderLike();
-    });
-
-    window.addEventListener("storage", (event) => {
-      if (event.key === storageKey || event.key === null) readLike();
-    });
-
-    readLike();
-    controls.hidden = false;
-  });
-
   const peopleDirectories = Array.from(document.querySelectorAll("[data-people-directory]"));
   peopleDirectories.forEach((directory) => {
     const viewButtons = Array.from(directory.querySelectorAll("[data-people-view]"));

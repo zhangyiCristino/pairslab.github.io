@@ -1,56 +1,73 @@
-<aside class="lab-companion" data-lab-companion data-mood="idle" aria-label="PAIRS Lab companion" hidden>
-  <button class="companion-launcher" type="button" data-companion-open aria-label="Open lab companion" hidden>
-    <span class="companion-mini-sprite" data-companion-art aria-hidden="true"></span>
-    <span class="companion-launcher-star" data-companion-badge aria-hidden="true" hidden>★</span>
-  </button>
+{{ range $index, $mascot := site.Data.mascots }}
+{{ $id := .id }}
+<aside class="lab-companion" data-lab-companion="{{ $id }}" data-name="{{ .name }}" data-sprite="{{ .companion_sprite | relURL }}" data-modes-sprite="{{ .modes_sprite | relURL }}" data-actions-sprite="{{ .actions_sprite | relURL }}" data-court-sprite="{{ .court_sprite | relURL }}" data-shot-sprite="{{ .shot_sprite | relURL }}" data-grenade-sprite="{{ .grenade_sprite | relURL }}" data-food="{{ .food }}" data-food-icon="{{ .food_icon }}" data-food-restore="{{ .food_restore }}" data-accent="{{ .accent }}" data-side="{{ if eq $index 0 }}left{{ else }}right{{ end }}" data-mood="idle" data-mode="everyday" aria-label="{{ .name }}, your lab companion" hidden>
+  <button class="companion-launcher" type="button" data-companion-open aria-label="Restore {{ .name }}" hidden><span class="companion-mini-sprite" data-companion-art aria-hidden="true"></span><span class="companion-launcher-star" data-companion-badge aria-hidden="true" hidden>★</span></button>
   <div class="companion-body" data-companion-body>
     <div class="companion-toolbar">
-      <button type="button" class="companion-tool companion-drag" data-companion-drag aria-label="Move companion: drag or use arrow keys" title="Drag to move · Arrow keys when focused"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3"/></svg></button>
-      <button type="button" class="companion-tool" data-companion-menu aria-label="Open companion menu" aria-controls="companion-panel" aria-expanded="false" title="Play & explore"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 3v-3H3V6a2 2 0 0 1 2-2Z"/><path d="M7 9h10M7 13h6"/></svg></button>
-      <button type="button" class="companion-tool" data-companion-minimize aria-label="Minimize companion" title="Minimize"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+      <button type="button" class="companion-tool companion-drag" data-companion-drag aria-label="Move {{ .name }}: drag or use arrow keys" title="Drag to move"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3"/></svg></button>
+      <button type="button" class="companion-tool" data-companion-menu aria-label="{{ .name }}: stats and skins" aria-controls="companion-panel-{{ $id }}" aria-expanded="false" title="Stats & skins"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18V10M12 18V5M19 18v-6"/></svg></button>
+      <button type="button" class="companion-tool" data-companion-minimize aria-label="Minimize {{ .name }}" title="Minimize"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
     </div>
-    <button class="companion-pet" type="button" data-companion-pet aria-label="Pet your lab companion"><span class="companion-sprite" data-companion-art aria-hidden="true"></span><span class="companion-explorer-star" data-companion-badge aria-hidden="true" hidden>★</span></button>
-    <button class="companion-name" type="button" data-companion-menu aria-controls="companion-panel" aria-expanded="false"><span data-companion-name>Lab buddy</span> <span aria-hidden="true">⌃</span></button>
+    <div class="companion-stage"><button class="companion-pet" type="button" data-companion-pet aria-label="Pet {{ .name }}"><span class="companion-sprite" data-companion-art aria-hidden="true"></span><span class="companion-explorer-star" data-companion-badge aria-hidden="true" hidden>★</span></button></div>
+    <button class="companion-name" type="button" data-companion-menu aria-controls="companion-panel-{{ $id }}" aria-expanded="false">{{ .name }} <span aria-hidden="true">⌃</span><span class="companion-mini-meter" aria-hidden="true"><span data-companion-mini-fullness></span></span></button>
+    <div class="companion-quick-actions" aria-label="Care for {{ .name }}">
+      <button type="button" data-companion-action="feed" aria-label="Feed {{ .name }} {{ .food }}" title="Feed {{ .food }} · +{{ .food_restore }} fullness">{{ .food_icon }}</button>
+      <button type="button" data-companion-action="sleep" aria-label="Let {{ .name }} nap" title="Nap · +25 energy">☾</button>
+      <span data-mascot-like-controls hidden><button class="mascot-like-button" type="button" data-mascot-like="{{ $id }}" aria-label="Like {{ .name }}"><span aria-hidden="true">♡</span><span class="sr-only" data-mascot-like-label>Like</span></button><span class="sr-only" data-mascot-like-note>Hearts collected in this browser.</span></span>
+    </div>
+    <div class="companion-shooting-actions" role="group" aria-label="{{ .name }} shooting controls">
+      <button type="button" data-companion-fire="shoot" aria-label="Shoot with {{ .name }}">⌖ Shoot</button>
+      <button type="button" data-companion-fire="grenade" aria-label="{{ .name }}: throw a grenade">↗ Throw</button>
+    </div>
+    <div class="companion-return-actions"><button type="button" data-companion-pass-back aria-label="Pass the ball back" hidden>↩ Pass back</button></div>
     <div class="companion-speech" data-companion-speech role="status" hidden></div>
   </div>
-  <section class="companion-panel" id="companion-panel" data-companion-panel role="dialog" aria-modal="false" aria-labelledby="companion-title" hidden>
-    <header class="companion-panel-header"><div><p>Your lab buddy</p><h2 id="companion-title" data-companion-title>Nailong</h2></div><button type="button" class="companion-tool" data-companion-close aria-label="Close companion menu">×</button></header>
-    <div class="companion-character-switch" role="group" aria-label="Choose your companion">
-      {{ range site.Data.mascots }}
-        <button type="button" data-companion-character="{{ .id }}" data-name="{{ .name }}" data-english-name="{{ .english_name }}" data-sprite="{{ .companion_sprite | relURL }}" aria-pressed="false">{{ .name }}</button>
-      {{ end }}
+  <section class="companion-panel" id="companion-panel-{{ $id }}" data-companion-panel role="dialog" aria-modal="false" aria-labelledby="companion-title-{{ $id }}" hidden>
+    <header class="companion-panel-header"><div><p>PAIRS · little companions</p><h2 id="companion-title-{{ $id }}">{{ .name }} <span class="companion-mode-label" data-companion-mode-label>Everyday</span></h2></div><button type="button" class="companion-tool" data-companion-close aria-label="Close {{ .name }}'s stats">×</button></header>
+    <div class="companion-vitals" aria-label="{{ .name }}'s wellbeing">
+      {{ range slice (dict "id" "fullness" "label" "Fullness") (dict "id" "happiness" "label" "Happiness") (dict "id" "energy" "label" "Energy") }}<div class="companion-vital" data-vital="{{ .id }}"><label for="companion-{{ $id }}-{{ .id }}"><span>{{ .label }}</span><span><output data-companion-stat="{{ .id }}">—</output><small>/100</small></span></label><meter id="companion-{{ $id }}-{{ .id }}" data-companion-meter="{{ .id }}" min="0" max="100" value="0"></meter></div>{{ end }}
     </div>
-    <div class="companion-actions" aria-label="Play with your companion">
-      <button type="button" data-companion-action="pet"><span aria-hidden="true">♡</span> Pet</button>
-      <button type="button" data-companion-action="wave"><span aria-hidden="true">👋</span> Wave</button>
-      <button type="button" data-companion-action="sleep"><span aria-hidden="true">☾</span> Nap</button>
-      <button type="button" data-companion-action="feed" hidden><span aria-hidden="true">🍊</span> Feed Lulu</button>
-    </div>
-    {{ range site.Data.mascots }}
-      <div class="companion-like-row" data-companion-like-row="{{ .id }}" hidden>
-        <div class="mascot-like" data-mascot-like-controls hidden>
-          <button class="mascot-like-button" type="button" data-mascot-like="{{ .id }}" aria-pressed="false" aria-label="Like {{ .name }}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span data-mascot-like-label>Like</span></button>
-          <p class="mascot-like-note" data-mascot-like-note>Likes are saved in this browser.</p>
-        </div>
-      </div>
-    {{ end }}
-    <nav class="companion-guide" aria-label="Explore PAIRS Lab">
-      <a href="{{ "research/#research-directions" | relURL }}">Explore research <span aria-hidden="true">↗</span></a>
-      <a href="{{ "publications/" | relURL }}">Read a paper <span aria-hidden="true">↗</span></a>
-      <a href="{{ "join/" | relURL }}">Join the lab <span aria-hidden="true">↗</span></a>
-    </nav>
-    <div class="companion-quest">
-      <div class="companion-quest-heading"><strong data-companion-quest-title>Lab explorer</strong><span data-companion-progress-label>0 / 4</span></div>
-      <progress data-companion-progress max="4" value="0" aria-label="Research directions explored"></progress>
-      <p data-companion-quest-description>Visit all four research directions to earn your explorer badge.</p>
-      <ol class="companion-quest-list">
-        {{ range site.Data.research }}
-          <li><a href="{{ printf "research/#%s" .id | relURL }}" data-companion-direction="{{ .id }}"><span data-companion-check aria-hidden="true">{{ .number }}</span>{{ .nav_title }}<span class="sr-only" data-companion-direction-status> — not yet explored</span></a></li>
-        {{ end }}
-      </ol>
-      <button type="button" class="companion-celebrate" data-companion-action="celebrate" hidden>★ Explorer pose unlocked</button>
-      <small data-companion-save-note>Progress is saved in this browser.</small>
-    </div>
-    <button class="companion-reset-position" type="button" data-companion-reset-position>Return to corner</button>
+    <div class="companion-skin-heading">Choose a skin</div>
+    <div class="companion-modes" role="group" aria-label="{{ .name }} skins"><button type="button" data-companion-mode="everyday" aria-pressed="true">☀ Everyday</button><button type="button" data-companion-mode="basketball" aria-pressed="false">🏀 Basketball</button><button type="button" data-companion-mode="csgo" aria-pressed="false">⌖ CSGO</button></div>
+    <div class="companion-record-simple" aria-label="{{ .name }}'s record"><div><strong data-pet-record="feeds">0</strong><span>Feeds</span></div><div><strong data-pet-record="interactions">0</strong><span>Interactions</span></div><div><strong data-pet-record="likes">0</strong><span>Likes</span></div></div>
+    <footer class="companion-panel-footer"><small data-companion-save-note>Saved in this browser.</small><button type="button" data-companion-reset-position>Reset position</button></footer>
   </section>
 </aside>
+{{ end }}
+<div class="companion-dock" data-companion-dock hidden>
+  <button class="companion-highfive" type="button" data-companion-highfive title="Naiwa & Lulu: high five">↔ <span>High five</span></button>
+  <button class="companion-adventure-entry" type="button" data-journey-open aria-label="Adventure: enter the PAIRS Lab adventure">
+    <img src="{{ "images/mascots/companion/adventure-portal-v1.png" | relURL }}" alt="" width="60" height="54">
+    <span class="companion-adventure-copy"><strong>Adventure</strong><small>PAIRS Lab · <span data-journey-count>0/4</span></small></span>
+    <span class="companion-adventure-arrow" aria-hidden="true">↗</span>
+  </button>
+</div>
+<dialog class="companion-passport" data-companion-passport aria-labelledby="companion-passport-title">
+  <button type="button" class="companion-passport-close" data-journey-close aria-label="Close the adventure">×</button>
+  <div class="companion-cup-display" data-companion-cup><img class="companion-cup-brand" src="{{ "brand/logo/pairs-lab-compact-horizontal-color.svg" | relURL }}" alt="PAIRS Lab" width="156" height="42"><img class="companion-adventure-art" src="{{ "images/mascots/companion/adventure-portal-v1.png" | relURL }}" alt="PAIRS Lab infinity portal with a golden discovery path and compass" width="140" height="128">{{ partial "companion-trophy.html" "passport" }}<span class="companion-cup-status" data-companion-cup-status>4 discoveries to collect</span><h2 id="companion-passport-title">PAIRS Lab Adventure</h2><p data-companion-cup-description>A little curiosity. A little care. One shared adventure.</p></div>
+  <ol class="companion-milestones" data-companion-milestones></ol>
+  <button type="button" class="companion-claim" data-companion-claim disabled>Complete the journey to unlock</button>
+  <details class="companion-explore"><summary>Research passport <span data-companion-progress-label>0 / 4</span></summary><ol class="companion-quest-list">{{ range site.Data.research }}<li><a href="{{ printf "research/#%s" .id | relURL }}" data-companion-direction="{{ .id }}"><span data-companion-check aria-hidden="true">{{ .number }}</span>{{ .nav_title }}<span class="sr-only" data-companion-direction-status> — not yet explored</span></a></li>{{ end }}</ol></details>
+  <p class="companion-passport-note">Discover, care, play and collect. Your progress stays in this browser.</p>
+</dialog>
+<div class="companion-playground" data-companion-playground hidden>
+  <div class="companion-game-hud" role="region" aria-label="Companion game controls">
+    <div class="companion-hud-title"><strong data-playground-title>Naiwa · Basketball</strong><span data-playground-score>Ready to play</span></div>
+    <div class="companion-hud-aim" data-playground-basketball><div class="companion-shot-meter" aria-hidden="true"><span class="companion-shot-zone"></span><span class="companion-shot-marker" data-playground-aim></span></div><button type="button" data-playground-steady aria-pressed="false" title="Slow the aiming meter">Steady aim</button></div>
+    <div class="companion-hud-actions"><button type="button" data-playground-action="dribble" data-playground-basketball>Dribble</button><button type="button" data-playground-action="pass" data-playground-basketball>Pass</button><button type="button" data-playground-action="shoot" data-playground-basketball>Shoot 🏀</button><button type="button" data-playground-action="next" data-playground-csgo hidden>New round</button></div>
+    <button type="button" class="companion-game-exit" data-playground-exit aria-label="Exit companion game">×</button>
+    <span class="companion-game-status" data-playground-status role="status" aria-live="polite">Shoot in the green zone, or use steady aim.</span>
+  </div>
+  <div class="companion-page-hoop" data-playground-hoop aria-hidden="true"><svg viewBox="0 0 144 114"><rect x="12" y="3" width="120" height="72" rx="7" fill="#ffffffee" stroke="#6e91ad" stroke-width="3"/><path d="M51 73V39h42v34" fill="none" stroke="#cf7447" stroke-width="3"/><path class="companion-hoop-net" d="m44 79 10 30h36l10-30M53 82l29 26M66 81l24 21M89 82l-29 26M76 81l-24 21" fill="none" stroke="#9aabad" stroke-width="2"/><ellipse cx="72" cy="79" rx="31" ry="5" fill="none" stroke="#d87837" stroke-width="5"/></svg></div>
+  {{ range site.Data.mascots }}<button type="button" class="companion-page-target" data-playground-target="{{ .id }}" data-accent="{{ .accent }}" aria-label="Shoot with {{ .name }}" hidden>
+    <svg class="companion-target-art" viewBox="0 0 88 88" fill="none" aria-hidden="true">
+      <path class="companion-target-brackets" d="M8 25V12a4 4 0 0 1 4-4h13M63 8h13a4 4 0 0 1 4 4v13M80 63v13a4 4 0 0 1-4 4H63M25 80H12a4 4 0 0 1-4-4V63"/>
+      <circle class="companion-target-outer" cx="44" cy="44" r="27"/>
+      <circle class="companion-target-inner" cx="44" cy="44" r="18"/>
+      <path class="companion-target-crosshair" d="M44 12v13M44 63v13M12 44h13M63 44h13"/>
+      <circle class="companion-target-center" cx="44" cy="44" r="7"/>
+      <circle cx="44" cy="44" r="2" fill="#fff8e8"/>
+    </svg>
+    <small data-playground-target-number>01</small><span class="companion-target-name">{{ .name }}</span>
+  </button>{{ end }}
+</div>
