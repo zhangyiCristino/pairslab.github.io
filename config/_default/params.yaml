@@ -6,7 +6,7 @@
 # Appearance
 
 assets:
-  version: '20261107-lab-companions-v1'
+  version: '20261110-companion-play-v6'
 
 appearance:
   theme_day: minimal

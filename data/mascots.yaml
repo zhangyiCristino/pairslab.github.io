@@ -1,8 +1,17 @@
 - id: nailong
-  name: Nailong
-  english_name: Nailong
+  name: Naiwa
+  english_name: Naiwa
   image: images/mascots/nailong.jpg
   companion_sprite: images/mascots/companion/nailong-atlas.png
+  modes_sprite: images/mascots/companion/naiwa-modes-v1.png
+  actions_sprite: images/mascots/companion/naiwa-actions-v1.png
+  court_sprite: images/mascots/companion/naiwa-court-v1.png
+  shot_sprite: images/mascots/companion/naiwa-shot-v2.png
+  grenade_sprite: images/mascots/companion/naiwa-grenade-v2.png
+  food: rice
+  food_icon: 🍚
+  food_restore: 32
+  accent: blue
   width: 1159
   height: 1358
 
@@ -11,5 +20,14 @@
   english_name: Lulu
   image: images/mascots/lulu.png
   companion_sprite: images/mascots/companion/lulu-atlas.png
+  modes_sprite: images/mascots/companion/lulu-modes-v1.png
+  actions_sprite: images/mascots/companion/lulu-actions-v1.png
+  court_sprite: images/mascots/companion/lulu-court-v1.png
+  shot_sprite: images/mascots/companion/lulu-shot-v2.png
+  grenade_sprite: images/mascots/companion/lulu-grenade-v2.png
+  food: orange
+  food_icon: 🍊
+  food_restore: 28
+  accent: orange
   width: 1254
   height: 1254
