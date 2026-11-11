@@ -47,6 +47,30 @@ logos, icons, or core brand colours.
 
 The generated site is written to `public/`.
 
+## Media and browser caching
+
+Hugo generates WebP display images from the original files through
+`layouts/partials/image-url.html`. CSS, JavaScript and SVG URLs are fingerprinted;
+editing the source automatically changes the URL, without a manual version bump.
+Keep the originals and edit them normally; do not commit generated `resources/`.
+
+`assets/js/media.js` manages video loading and playback for the whole site.
+Only visible, active videos play. Research direction cards use six-second,
+640-pixel H.264 clips in `static/media/research/previews/`; each topic's `preview`
+field selects the clip, while `demo` retains the full video for its detail card.
+
+Production pages register `static/sw.js`. It caches only content-addressed assets,
+up to 60 files of 512 KiB each (30 MiB of bodies), for at most 14 days. HTML is
+revalidated against the network; videos, Range requests and external URLs bypass
+this cache. The footer's **Refresh site cache** clears only PAIRS asset caches and
+reloads the page. Pet stats, likes, preferences and exploration progress remain
+in local storage. Storage denial falls back to ordinary browser loading.
+
+Normal `hugo server` development previews do not register a service worker. Use
+`hugo server --environment production --disableFastRender` on localhost to test
+the production cache. Increment the worker's cache version when its storage
+format or policy changes; activation removes older PAIRS asset caches.
+
 ## Deployment
 
 Every push to `main` runs `.github/workflows/publish.yaml`. GitHub Actions builds

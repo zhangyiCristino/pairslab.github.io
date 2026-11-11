@@ -2,7 +2,7 @@
   <div class="footer-shell">
     <div class="footer-identity">
       <a class="brand brand-footer" href="{{ site.Home.RelPermalink }}">
-        <img class="footer-pairs-logo" src="{{ "brand/logo/pairs-lab-primary-horizontal-reverse.svg" | relURL }}" alt="PAIRS Lab — Physical AI and Robotic Systems Lab">
+        <img class="footer-pairs-logo" src="{{ partial "image-url.html" (dict "src" "brand/logo/pairs-lab-primary-horizontal-reverse.svg") }}" alt="PAIRS Lab — Physical AI and Robotic Systems Lab">
       </a>
     </div>
 
@@ -14,7 +14,7 @@
     <div class="footer-links">
       <span class="footer-label">Affiliation &amp; links</span>
       <a class="footer-university" href="https://www.hkust-gz.edu.cn/" target="_blank" rel="noreferrer">
-        <img src="{{ "images/hkustgz-logo-white.png" | relURL }}" alt="HKUST(GZ)">
+        <img src="{{ partial "image-url.html" (dict "src" "images/hkustgz-logo-white.png" "width" 480) }}" alt="HKUST(GZ)">
       </a>
       <a href="https://github.com/pairslab" target="_blank" rel="noreferrer">GitHub ↗</a>
       <a href="https://www.xiaohongshu.com/user/profile/6a866e5a000000000301cb81" target="_blank" rel="noreferrer">Xiaohongshu ↗</a>
@@ -22,5 +22,11 @@
   </div>
   <div class="footer-bottom">
     <span>© {{ now.Year }} PAIRS Lab · HKUST(GZ)</span>
+    {{ if hugo.IsProduction }}
+      <span class="site-cache-control" data-site-cache hidden>
+        <button type="button" data-cache-refresh>Refresh site cache</button>
+        <span role="status" data-cache-status></span>
+      </span>
+    {{ end }}
   </div>
 </footer>

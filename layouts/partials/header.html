@@ -2,8 +2,8 @@
   <div class="header-shell">
     <a class="brand" href="{{ site.Home.RelPermalink }}" aria-label="PAIRS Lab home">
       <picture class="brand-logo">
-        <source media="(max-width: 680px)" srcset="{{ "brand/logo/pairs-lab-compact-horizontal-color.svg" | relURL }}">
-        <img src="{{ "brand/logo/pairs-lab-primary-horizontal-color.svg" | relURL }}" alt="PAIRS Lab — Physical AI and Robotic Systems Lab">
+        <source media="(max-width: 680px)" srcset="{{ partial "image-url.html" (dict "src" "brand/logo/pairs-lab-compact-horizontal-color.svg") }}">
+        <img src="{{ partial "image-url.html" (dict "src" "brand/logo/pairs-lab-primary-horizontal-color.svg") }}" alt="PAIRS Lab — Physical AI and Robotic Systems Lab">
       </picture>
     </a>
 
@@ -21,7 +21,7 @@
         </a>
       {{ end }}
       <a class="institution-logo" href="https://www.hkust-gz.edu.cn/" target="_blank" rel="noreferrer" aria-label="The Hong Kong University of Science and Technology (Guangzhou)">
-        <img src="{{ "images/hkustgz-logo-color.png" | relURL }}" alt="The Hong Kong University of Science and Technology (Guangzhou)">
+        <img src="{{ partial "image-url.html" (dict "src" "images/hkustgz-logo-color.png" "width" 480) }}" alt="The Hong Kong University of Science and Technology (Guangzhou)">
       </a>
     </nav>
   </div>

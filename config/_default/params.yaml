@@ -5,9 +5,6 @@
 
 # Appearance
 
-assets:
-  version: '20261110-companion-play-v6'
-
 appearance:
   theme_day: minimal
   theme_night: minimal

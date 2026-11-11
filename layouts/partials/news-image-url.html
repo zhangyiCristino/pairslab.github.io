@@ -1,10 +1,6 @@
 {{- $imageURL := "" -}}
 {{- with .Params.image -}}
   {{- $imagePath := . -}}
-  {{- with $.Resources.GetMatch $imagePath -}}
-    {{- $imageURL = .RelPermalink -}}
-  {{- else -}}
-    {{- $imageURL = $imagePath | relURL -}}
-  {{- end -}}
+  {{- $imageURL = partial "image-url.html" (dict "page" $ "src" $imagePath "width" 1200) -}}
 {{- end -}}
 {{- return $imageURL -}}

@@ -6,7 +6,7 @@
           <div class="research-topic-media-slot">
             {{ with .label }}<span class="research-topic-media-slot-label">{{ . }}</span>{{ end }}
             <div class="research-topic-media-frame">
-              <video data-research-loop autoplay muted loop playsinline preload="none"{{ with .poster }} poster="{{ . | relURL }}"{{ end }} aria-hidden="true">
+              <video data-research-loop muted loop playsinline preload="none"{{ with .poster }} poster="{{ partial "image-url.html" (dict "src" . "width" 960) }}"{{ end }} aria-hidden="true">
                 <source data-src="{{ .src | relURL }}" type="video/mp4">
               </video>
             </div>
@@ -15,11 +15,11 @@
       </div>
     {{ else }}
       {{ with .demo }}
-        <video data-research-loop autoplay muted loop playsinline preload="none"{{ with $.poster }} poster="{{ . | relURL }}"{{ end }} aria-hidden="true">
+        <video data-research-loop muted loop playsinline preload="none"{{ with $.poster }} poster="{{ partial "image-url.html" (dict "src" . "width" 960) }}"{{ end }} aria-hidden="true">
           <source data-src="{{ . | relURL }}" type="video/mp4">
         </video>
       {{ else }}
-        <img src="{{ (.image | default .poster) | relURL }}" alt="{{ .alt | default .title }}" loading="lazy">
+        <img src="{{ partial "image-url.html" (dict "src" (.image | default .poster) "width" 960 "quality" 85) }}" alt="{{ .alt | default .title }}" loading="lazy" decoding="async">
       {{ end }}
     {{ end }}
     {{ with .media_label }}<span class="research-topic-media-label">{{ . }}</span>{{ end }}

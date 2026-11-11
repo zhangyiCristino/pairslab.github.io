@@ -8,7 +8,7 @@
         {{ with $page.Resources.GetMatch .image }}
           <figure class="news-media-item">
             <a class="news-gallery-link" href="{{ .RelPermalink }}" target="_blank" rel="noopener" aria-label="View full photo: {{ $item.alt }}">
-              <img src="{{ .RelPermalink }}" alt="{{ $item.alt }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy" decoding="async">
+              <img src="{{ partial "image-url.html" (dict "page" $page "src" $item.image "width" 1200) }}" alt="{{ $item.alt }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy" decoding="async">
             </a>
             {{ with $item.caption }}<figcaption>{{ . }}</figcaption>{{ end }}
           </figure>
@@ -27,7 +27,7 @@
         {{ with $page.Resources.GetMatch .src }}
           <figure class="news-media-item">
             <video controls playsinline preload="none" width="{{ $item.width }}" height="{{ $item.height }}" aria-label="{{ $item.caption }}"
-              {{ with $page.Resources.GetMatch $item.poster }}poster="{{ .RelPermalink }}"{{ end }}>
+              {{ with $page.Resources.GetMatch $item.poster }}poster="{{ partial "image-url.html" (dict "page" $page "src" $item.poster "width" 1200) }}"{{ end }}>
               <source src="{{ .RelPermalink }}" type="video/mp4">
               <a href="{{ .RelPermalink }}">Download this video</a>
             </video>

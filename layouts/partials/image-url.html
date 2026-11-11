@@ -1,0 +1,25 @@
+{{- /* Keep originals available, but serve a bounded, content-addressed WebP. */ -}}
+{{- $src := .src | default "" -}}
+{{- $url := $src | relURL -}}
+{{- $image := false -}}
+{{- with .page -}}
+  {{- $image = .Resources.GetMatch $src -}}
+{{- end -}}
+{{- if not $image -}}
+  {{- $image = resources.Get (strings.TrimPrefix "/" $src) -}}
+{{- end -}}
+{{- with $image -}}
+  {{- if in (slice "jpeg" "png" "webp") .MediaType.SubType -}}
+    {{- $width := math.Min .Width ($.width | default 960) | int -}}
+    {{- $thumbnail := .Resize (printf "%dx webp q%d" $width ($.quality | default 82)) -}}
+    {{- $url = $thumbnail.RelPermalink -}}
+  {{- else -}}
+    {{- $asset := . -}}
+    {{- if eq .MediaType.SubType "svg" -}}
+      {{- $asset = . | minify -}}
+    {{- end -}}
+    {{- $asset = $asset | fingerprint -}}
+    {{- $url = $asset.RelPermalink -}}
+  {{- end -}}
+{{- end -}}
+{{- return $url -}}

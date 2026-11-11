@@ -16,7 +16,10 @@
     if (!src) return Promise.resolve(false);
     if (!spriteLoads.has(src)) {
       const image = new Image(); image.src = src;
-      spriteLoads.set(src, image.decode().then(() => true, () => false));
+      spriteLoads.set(src, image.decode().then(() => true, () => {
+        spriteLoads.delete(src); // A temporary network failure must be retryable.
+        return false;
+      }));
     }
     return spriteLoads.get(src);
   };
@@ -484,11 +487,7 @@
       if (playground?.actor === id && playground.mode !== mode) playground.stop();
       endPair();
       prefs.mode = mode; root.dataset.mode = mode; setMood("idle");
-      if (mode !== "everyday") {
-        loadSprite(root.dataset.modesSprite); loadSprite(root.dataset.actionsSprite);
-        if (mode === "basketball") loadSprite(root.dataset.courtSprite);
-        loadSprite(mode === "basketball" ? root.dataset.shotSprite : root.dataset.grenadeSprite);
-      }
+      // Action sheets load only when that action is requested.
       all("[data-companion-mode]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.companionMode === mode)));
       find("[data-companion-mode-label]").textContent = modes[mode];
       placeOverlay(panel);
@@ -528,11 +527,11 @@
       busy = true; lastInteraction = Date.now();
       try {
         const mode = prefs.mode;
-        if (["shoot", "grenade", "dribble"].includes(kind)) {
-          const key = kind === "shoot" ? "shotSprite" : kind === "dribble" ? "courtSprite" : "grenadeSprite";
+        if (["shoot", "grenade", "dribble", "target"].includes(kind)) {
+          const key = kind === "shoot" ? "shotSprite" : kind === "dribble" ? "courtSprite" : kind === "target" ? "actionsSprite" : "grenadeSprite";
           if (!await loadSprite(root.dataset[key])) {
-            if (kind === "dribble") { feedback("Let the basketball animation finish loading, then try again.", true); return false; }
-            delete root.dataset[key];
+            feedback("The animation could not load. Please try again.", true);
+            return false;
           }
           if (mode !== prefs.mode) return false;
         }
@@ -543,7 +542,7 @@
         const mood = { feed: "feed", like: "happy", pet: "happy", wave: "wave", sleep: "sleep", shoot: "shoot", dribble: "dribble", target: "target", grenade: "grenade", highfive: "wave", pass: "pass", coop: "target", celebrate: "celebrate" }[kind];
         setMood(mood, kind === "sleep" || kind === "dribble" ? 0 : kind === "target" ? 360 : kind === "grenade" ? 950 : 2400);
         if (kind === "feed") feedAnimation(controller);
-        if (["pet", "celebrate"].includes(kind)) burst(pet, kind === "feed" ? controller.foodIcon : kind === "celebrate" ? "⭐" : "♥");
+        if (["pet", "celebrate"].includes(kind)) burst(pet, kind === "celebrate" ? "⭐" : "♥");
         return true;
       } finally { busy = false; }
     };

@@ -21,7 +21,7 @@
       {{ range $pi }}
         <button class="people-carousel-card" type="button" data-people-card aria-label="Show {{ .name }}">
           <span class="people-carousel-photo">
-            <img src="{{ .image | relURL }}" alt="{{ .name }}" loading="eager">
+            <img src="{{ partial "image-url.html" (dict "src" .image "width" 640) }}" alt="{{ .name }}" loading="eager" decoding="async">
           </span>
           <span class="people-carousel-card-name">{{ .name }}</span>
         </button>
@@ -33,7 +33,7 @@
         {{ $imagePosition := .Params.card_image_position | default "center top" }}
         <button class="people-carousel-card{{ if eq .Params.group "infra" }} is-equipment{{ end }}" type="button" data-people-card aria-label="Show {{ .Title }}">
           <span class="people-carousel-photo">
-            <img src="{{ $imageURL }}" alt="{{ .Title }}" loading="lazy" style="{{ printf "--member-image-scale: %v; --member-image-position: %s;" $imageScale $imagePosition | safeCSS }}">
+            <img src="{{ $imageURL }}" alt="{{ .Title }}" loading="lazy" decoding="async" style="{{ printf "--member-image-scale: %v; --member-image-position: %s;" $imageScale $imagePosition | safeCSS }}">
           </span>
           <span class="people-carousel-card-name">{{ .Title }}</span>
         </button>
@@ -42,7 +42,7 @@
       {{ range $mascots }}
         <button class="people-carousel-card is-mascot" type="button" data-people-card aria-label="Show {{ .name }}">
           <span class="people-carousel-photo">
-            <img src="{{ .image | relURL }}" alt="{{ .name }}" width="{{ .width }}" height="{{ .height }}" loading="lazy" decoding="async">
+            <img src="{{ partial "image-url.html" (dict "src" .image "width" 640) }}" alt="{{ .name }}" width="{{ .width }}" height="{{ .height }}" loading="lazy" decoding="async">
           </span>
           <span class="people-carousel-card-name">{{ .name }}</span>
         </button>

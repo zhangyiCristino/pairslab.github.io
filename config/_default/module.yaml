@@ -8,3 +8,17 @@ imports:
   - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-plugin-decap-cms
   - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-plugin-netlify
   - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-bootstrap/v5
+
+# Reuse the originals through Hugo Pipes; generated WebP/CSS/JS URLs carry
+# content hashes so a new deployment cannot reuse an outdated cached asset.
+mounts:
+  - source: assets
+    target: assets
+  - source: static/images
+    target: assets/images
+  - source: static/brand
+    target: assets/brand
+  - source: static/css
+    target: assets/css
+  - source: static/js
+    target: assets/js

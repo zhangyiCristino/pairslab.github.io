@@ -1,7 +1,1 @@
-{{- $page := .page -}}
-{{- $src := .src -}}
-{{- with $page.Resources.GetMatch $src -}}
-  {{- .RelPermalink -}}
-{{- else -}}
-  {{- $src | relURL -}}
-{{- end -}}
+{{- return (partial "image-url.html" (dict "page" .page "src" .src "width" 640)) -}}

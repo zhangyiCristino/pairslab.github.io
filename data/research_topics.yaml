@@ -5,6 +5,7 @@ robust-autonomy:
     poster: images/publications/guide.jpg
     fit: contain
     demo: media/research/demos/guide-navigation.mp4
+    preview: media/research/previews/guide-navigation-v1.mp4
     source_asset: https://guide-navigation.github.io/public/assets/videos/web/wild_02_outdoor.mp4
     project_url: https://guide-navigation.github.io/
     link_label: Explore GUIDE
@@ -57,6 +58,7 @@ human-sensing:
     media_label: Lab demonstration
     poster: images/research/topics/wrist-semg-collection.png
     demo: media/research/demos/wrist-semg-collection.mp4
+    preview: media/research/previews/wrist-semg-v1.mp4
     fit: contain
     attribution: Ongoing lab prototype · Not linked to a publication
 
@@ -103,6 +105,7 @@ embodied-autonomy:
     poster: images/research/topics/palm-real-world-setup.jpg
     fit: contain
     demo: media/research/demos/palm-progress.mp4
+    preview: media/research/previews/palm-progress-v1.mp4
     source_asset: https://plan-lab.github.io/projects/palm/static/videos/original.mp4
     project_url: https://plan-lab.github.io/projects/palm/
     link_label: Explore PALM
@@ -123,6 +126,7 @@ scalable-physical-ai:
     poster: images/publications/seeking-physics.jpg
     fit: contain
     demo: media/research/demos/seeking-physics.m4v
+    preview: media/research/previews/seeking-physics-v1.mp4
     project_url: https://thegreatestcj.github.io/Physics-in-Noise/
     link_label: Explore Seeking Physics
     attribution: 2026

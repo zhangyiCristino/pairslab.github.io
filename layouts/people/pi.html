@@ -4,7 +4,7 @@
       <div class="pi-page-main">
         <section class="pi-page-overview">
           <div class="pi-page-photo">
-            <img src="{{ .Params.image | relURL }}" alt="Portrait of {{ .Title }}" loading="eager">
+            <img src="{{ partial "image-url.html" (dict "page" . "src" .Params.image "width" 640) }}" alt="Portrait of {{ .Title }}" loading="eager">
           </div>
           <div class="pi-page-details">
             <h1>Dr. {{ .Title }}</h1>

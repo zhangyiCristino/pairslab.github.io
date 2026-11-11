@@ -38,8 +38,8 @@
       {{ range $programs }}
         <a class="research-choice" href="#{{ .id }}" data-research-choice="{{ .id }}" aria-controls="{{ .id }}">
           {{ range first 1 (index site.Data.research_topics .id) }}
-            <video class="research-choice-video" muted loop playsinline preload="none" poster="{{ .poster | relURL }}" aria-hidden="true">
-              <source data-src="{{ .demo | relURL }}" type="video/mp4">
+            <video class="research-choice-video" muted loop playsinline preload="none" poster="{{ partial "image-url.html" (dict "src" .poster "width" 800) }}" aria-hidden="true">
+              <source data-src="{{ (.preview | default .demo) | relURL }}" type="video/mp4">
             </video>
           {{ end }}
           <span class="research-choice-number">{{ .number }}</span>
@@ -102,6 +102,6 @@
       <a class="button button-primary" href="{{ "publications/" | relURL }}">Browse all publications</a>
     </div>
   </section>
-  {{ $researchScript := resources.Get "js/research.js" | fingerprint }}
+  {{ $researchScript := resources.Get "js/research.js" | minify | fingerprint }}
   <script src="{{ $researchScript.RelPermalink }}" defer></script>
 {{ end }}

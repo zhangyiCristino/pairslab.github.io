@@ -17,20 +17,21 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="{{ .Permalink }}">
     <title>{{ $pageTitle }}</title>
-    {{ $assetVersion := site.Params.assets.version | default "1" }}
     <link rel="icon" href="{{ "brand/favicon/pairs-lab-favicon.svg" | relURL }}" type="image/svg+xml">
     <link rel="icon" href="{{ "brand/favicon/pairs-lab-favicon-32.png" | relURL }}" type="image/png" sizes="32x32">
     <link rel="icon" href="{{ "brand/favicon/pairs-lab-favicon-16.png" | relURL }}" type="image/png" sizes="16x16">
     <link rel="apple-touch-icon" href="{{ "brand/favicon/pairs-lab-favicon-180.png" | relURL }}" sizes="180x180">
     <link rel="manifest" href="{{ "site.webmanifest" | relURL }}">
-    <link rel="stylesheet" href="{{ "brand/tokens/pairs-brand-tokens.css" | relURL }}">
-    <link rel="stylesheet" href="{{ printf "%s?v=%s" ("css/site.css" | relURL) $assetVersion }}">
+    {{ range slice "brand/tokens/pairs-brand-tokens.css" "css/site.css" }}
+      {{ $style := resources.Get . | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+    {{ end }}
     {{ with resources.Get "css/companion.css" }}
-      {{ $companionStyle := . | fingerprint }}
+      {{ $companionStyle := . | minify | fingerprint }}
       <link rel="stylesheet" href="{{ $companionStyle.RelPermalink }}">
     {{ end }}
     {{ if and .IsSection (eq .Section "research") }}
-      {{ $researchStyle := resources.Get "css/research.css" | fingerprint }}
+      {{ $researchStyle := resources.Get "css/research.css" | minify | fingerprint }}
       <link rel="stylesheet" href="{{ $researchStyle.RelPermalink }}">
     {{ end }}
     <script>
@@ -47,10 +48,17 @@
     </main>
     {{ partial "footer.html" . }}
     {{ partial "lab-companion.html" . }}
-    <script src="{{ printf "%s?v=%s" ("js/site.js" | relURL) $assetVersion }}" defer></script>
+    {{ range slice "js/site.js" "js/media.js" }}
+      {{ $script := resources.Get . | minify | fingerprint }}
+      <script src="{{ $script.RelPermalink }}" defer></script>
+    {{ end }}
     {{ with resources.Get "js/companion.js" }}
-      {{ $companionScript := . | fingerprint }}
+      {{ $companionScript := . | minify | fingerprint }}
       <script src="{{ $companionScript.RelPermalink }}" defer></script>
+    {{ end }}
+    {{ if hugo.IsProduction }}
+      {{ $cacheScript := resources.Get "js/cache.js" | minify | fingerprint }}
+      <script src="{{ $cacheScript.RelPermalink }}" data-cache-worker="{{ "sw.js" | relURL }}" defer></script>
     {{ end }}
   </body>
 </html>

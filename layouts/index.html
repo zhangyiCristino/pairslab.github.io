@@ -4,13 +4,13 @@
       {{ range $index, $slide := site.Data.home_hero }}
         <div class="hero-slide{{ if eq $index 0 }} is-active{{ end }}" data-hero-slide>
           {{ with $slide.video }}
-            <video class="hero-slide-media" style="object-position: {{ $slide.position | default "center" }};" data-hero-video muted loop playsinline preload="metadata" poster="{{ $slide.image | relURL }}" aria-label="{{ $slide.label }}">
-              <source src="{{ . | relURL }}" type="video/mp4">
+            <video class="hero-slide-media" style="object-position: {{ $slide.position | default "center" }};" data-hero-video muted loop playsinline preload="none" data-poster="{{ partial "image-url.html" (dict "src" $slide.image "width" 1600) }}" aria-label="{{ $slide.label }}">
+              <source data-src="{{ . | relURL }}" type="video/mp4">
             </video>
           {{ else }}
             <img
               class="hero-slide-media"
-              src="{{ $slide.image | relURL }}"
+              src="{{ partial "image-url.html" (dict "src" $slide.image "width" 1600) }}"
               alt="{{ $slide.label }}"
               style="object-position: {{ $slide.position | default "center" }};"
               {{ if eq $index 0 }}fetchpriority="high"{{ else }}loading="lazy"{{ end }}>
@@ -81,11 +81,11 @@
           <article class="research-media-card research-media-{{ $media.id }} reveal">
             <div class="research-media-visual">
               {{ with $media.media_file }}
-                <video class="research-media-video" data-research-video muted loop playsinline preload="none" poster="{{ $media.poster | relURL }}" aria-label="{{ $media.media_alt }}">
-                  <source src="{{ . | relURL }}" type="video/mp4">
+                <video class="research-media-video" data-research-video muted loop playsinline preload="none" poster="{{ partial "image-url.html" (dict "src" $media.poster "width" 800) }}" aria-label="{{ $media.media_alt }}">
+                  <source data-src="{{ . | relURL }}" type="video/mp4">
                 </video>
               {{ else }}
-                <img class="research-media-video research-media-image" src="{{ $media.poster | relURL }}" alt="{{ $media.media_alt }}" loading="lazy">
+                <img class="research-media-video research-media-image" src="{{ partial "image-url.html" (dict "src" $media.poster "width" 800) }}" alt="{{ $media.media_alt }}" loading="lazy">
               {{ end }}
             </div>
             <div class="research-media-copy">

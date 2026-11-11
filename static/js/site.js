@@ -44,10 +44,10 @@
   if (heroSlider) {
     const slides = Array.from(heroSlider.querySelectorAll("[data-hero-slide]"));
     const copies = Array.from(heroSlider.querySelectorAll("[data-hero-copy]"));
-    const videos = Array.from(heroSlider.querySelectorAll("[data-hero-video]"));
     const previous = heroSlider.querySelector("[data-hero-prev]");
     const next = heroSlider.querySelector("[data-hero-next]");
     let currentIndex = 0;
+    let inView = true;
     let timer;
 
     const stopTimer = () => {
@@ -66,20 +66,14 @@
           link.tabIndex = isActive ? 0 : -1;
         });
       });
-      videos.forEach((video) => {
-        const isActive = video.closest("[data-hero-slide]")?.classList.contains("is-active");
-        if (isActive && !reducedMotion.matches && !document.hidden) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-          if (!isActive) video.currentTime = 0;
-        }
-      });
+      const video = slides[currentIndex].querySelector("[data-hero-video]");
+      if (video?.dataset.poster && !video.poster) video.poster = video.dataset.poster;
+      document.dispatchEvent(new Event("pairs:mediachange"));
     };
 
     const scheduleNext = () => {
       stopTimer();
-      if (slides.length < 2 || reducedMotion.matches || document.hidden) return;
+      if (slides.length < 2 || reducedMotion.matches || document.hidden || !inView) return;
       timer = window.setTimeout(() => {
         showSlide(currentIndex + 1);
         scheduleNext();
@@ -94,17 +88,13 @@
     previous?.addEventListener("click", () => selectSlide(currentIndex - 1));
     next?.addEventListener("click", () => selectSlide(currentIndex + 1));
     document.addEventListener("visibilitychange", scheduleNext);
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) {
-        videos.forEach((video) => video.pause());
-      } else if (!reducedMotion.matches) {
-        heroSlider.querySelector(".hero-slide.is-active [data-hero-video]")?.play().catch(() => {});
-      }
-    });
-    reducedMotion.addEventListener?.("change", () => {
-      if (reducedMotion.matches) videos.forEach((video) => video.pause());
-      scheduleNext();
-    });
+    reducedMotion.addEventListener?.("change", scheduleNext);
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([entry]) => {
+        inView = entry.isIntersecting;
+        scheduleNext();
+      }).observe(heroSlider);
+    }
 
     showSlide(0);
     scheduleNext();
@@ -578,71 +568,4 @@
     }
   }
 
-  const researchVideos = Array.from(document.querySelectorAll("[data-research-video], [data-research-loop]"));
-  if (!researchVideos.length) return;
-
-  const loadVideo = (video) => {
-    if (video.dataset.loaded === "true") return;
-    video.querySelectorAll("source[data-src]").forEach((source) => {
-      source.src = source.dataset.src;
-    });
-    video.dataset.loaded = "true";
-    video.load();
-  };
-
-  const pauseVideo = (video, reset = false) => {
-    video.pause();
-    if (reset) video.currentTime = 0;
-  };
-
-  const videoObserver = "IntersectionObserver" in window
-    ? new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const video = entry.target;
-            video.dataset.inView = String(entry.isIntersecting);
-            if (entry.isIntersecting && !reducedMotion.matches && !document.hidden) {
-              loadVideo(video);
-              video.play().catch(() => {});
-            } else {
-              pauseVideo(video);
-            }
-          });
-        },
-        { rootMargin: "120px 0px", threshold: 0.2 },
-      )
-    : null;
-
-  researchVideos.forEach((video) => {
-    if (reducedMotion.matches) {
-      pauseVideo(video, true);
-    } else if (videoObserver) {
-      videoObserver.observe(video);
-    } else {
-      loadVideo(video);
-      video.play().catch(() => {});
-    }
-  });
-
-  document.addEventListener("visibilitychange", () => {
-    researchVideos.forEach((video) => {
-      if (document.hidden) {
-        pauseVideo(video);
-      } else if (video.dataset.inView === "true" && !reducedMotion.matches) {
-        loadVideo(video);
-        video.play().catch(() => {});
-      }
-    });
-  });
-
-  reducedMotion.addEventListener?.("change", () => {
-    researchVideos.forEach((video) => {
-      if (reducedMotion.matches) {
-        pauseVideo(video, true);
-      } else if (video.dataset.inView === "true") {
-        loadVideo(video);
-        video.play().catch(() => {});
-      }
-    });
-  });
 })();

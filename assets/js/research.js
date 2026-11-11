@@ -7,7 +7,6 @@
     const selected = panels.find(panel => panel.id === id) || panels[0];
     panels.forEach(panel => {
       panel.hidden = panel !== selected;
-      if (panel.hidden) panel.querySelectorAll('video').forEach(video => video.pause());
     });
     choices.forEach(choice => {
       const active = choice.dataset.researchChoice === selected.id;
@@ -16,6 +15,7 @@
       if (active) choice.setAttribute('aria-current', 'true');
       else choice.removeAttribute('aria-current');
     });
+    document.dispatchEvent(new Event('pairs:mediachange'));
     if (moveFocus) {
       selected.tabIndex = -1;
       selected.focus({ preventScroll: true });
@@ -41,36 +41,18 @@
   });
   select(location.hash.slice(1));
 
-  const previews = [...document.querySelectorAll('.research-choice-video')];
   const toggle = document.querySelector('.research-demo-toggle');
+  const previewSection = document.querySelector('.research-choices');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  let paused = reducedMotion.matches;
-  const visiblePreviews = new Set();
-  const updatePreviews = () => {
+  const updateToggle = (paused) => {
+    previewSection.dataset.previewsPaused = String(paused);
     toggle.textContent = paused ? 'Play previews' : 'Pause previews';
-    previews.forEach(video => {
-      if (paused || document.hidden || !visiblePreviews.has(video)) {
-        video.pause();
-        return;
-      }
-      const source = video.querySelector('source');
-      if (!source.hasAttribute('src')) {
-        source.src = source.dataset.src;
-        video.load();
-      }
-      video.play().catch(() => {});
-    });
+    document.dispatchEvent(new Event('pairs:mediachange'));
   };
-  if (previews.length && toggle && 'IntersectionObserver' in window) {
+  if (toggle && previewSection) {
     toggle.hidden = false;
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => entry.isIntersecting ? visiblePreviews.add(entry.target) : visiblePreviews.delete(entry.target));
-      updatePreviews();
-    }, { threshold: 0.1 });
-    previews.forEach(video => observer.observe(video));
-    toggle.addEventListener('click', () => { paused = !paused; updatePreviews(); });
-    document.addEventListener('visibilitychange', updatePreviews);
-    reducedMotion.addEventListener('change', () => { paused = reducedMotion.matches; updatePreviews(); });
-    updatePreviews();
+    updateToggle(reducedMotion.matches || !!navigator.connection?.saveData);
+    toggle.addEventListener('click', () => updateToggle(previewSection.dataset.previewsPaused !== 'true'));
+    reducedMotion.addEventListener('change', () => updateToggle(reducedMotion.matches));
   }
 })();

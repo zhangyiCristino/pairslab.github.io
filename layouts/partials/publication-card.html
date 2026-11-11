@@ -1,7 +1,7 @@
 <article class="publication-item{{ if .featured }} is-featured{{ end }}">
   {{ $thumbnail := printf "images/publications/%s.jpg" .key }}
   <a class="publication-thumb" href="{{ .project | default .paper }}" target="_blank" rel="noreferrer" tabindex="-1" aria-hidden="true">
-    <img src="{{ $thumbnail | relURL }}" alt="" loading="lazy">
+    <img src="{{ partial "image-url.html" (dict "src" $thumbnail "width" 800 "quality" 85) }}" alt="" loading="lazy">
   </a>
   <div class="publication-body">
     <div class="pub-overline">
