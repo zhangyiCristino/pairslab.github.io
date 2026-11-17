@@ -111,6 +111,14 @@ embodied-autonomy:
     link_label: Explore PALM
     attribution: CVPR 2026
 
+  - title: Agent-Planned LEGO Assembly with Sim-to-Real Skills
+    summary: This prototype explores long-horizon LEGO assembly through hierarchical planning and skill execution. Low-level manipulation skills are trained with reinforcement learning in a simulated LEGO environment and transferred to a real robot. A high-level agent plans the assembly sequence and invokes the appropriate skills at each step, providing a testbed for connecting task-level reasoning with physical assembly.
+    media_label: Lab demonstration
+    poster: images/research/topics/agentic-lego-assembly.jpg
+    demo: media/research/demos/agentic-lego-assembly.mp4
+    fit: contain
+    attribution: Ongoing lab prototype · Not linked to a publication
+
   - title: Sequential Block Stacking with a Single Arm
     summary: This lab demonstration follows a single robotic arm as it places blocks in sequence. The setup provides a focused testbed for perception, action sequencing, task-state tracking, and reliable execution as we develop longer and more adaptive manipulation behaviors.
     media_label: Lab demonstration

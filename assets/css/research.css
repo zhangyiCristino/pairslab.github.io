@@ -77,6 +77,29 @@
   border: 0;
 }
 
+.research-topic-grid.is-triple {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 960px) {
+  .research-topic-grid.is-triple {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .research-topic-grid.is-triple .research-topic-copy {
+    padding: 24px 22px;
+  }
+
+  .research-topic-grid.is-triple .research-topic-attribution {
+    min-height: 2lh;
+  }
+
+  .research-topic-grid.is-triple h3 {
+    min-height: 3lh;
+    font-size: 1.25rem;
+  }
+}
+
 .research-topic-card {
   overflow: hidden;
   border: 1px solid var(--line);

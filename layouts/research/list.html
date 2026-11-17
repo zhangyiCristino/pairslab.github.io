@@ -74,7 +74,7 @@
               <p>Selected research and lab demonstrations</p>
               <span>Published work and ongoing prototypes are identified separately, with original sources linked when available.</span>
             </div>
-            <div class="research-topic-grid{{ if eq (len .) 1 }} is-single{{ end }}">
+            <div class="research-topic-grid{{ if eq (len .) 1 }} is-single{{ else if eq (len .) 3 }} is-triple{{ end }}">
               {{ range . }}
                 {{ partial "research-topic-card.html" . }}
               {{ end }}
