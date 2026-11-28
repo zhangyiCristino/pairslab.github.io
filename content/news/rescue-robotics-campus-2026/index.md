@@ -19,6 +19,9 @@ gallery:
   - image: competition-review.jpg
     alt: The PAIRS-Pi presentation reviews quadruped supply delivery and terrain simulation.
     caption: The PAIRS-Pi presentation reviews quadruped supply delivery and terrain simulation.
+  - image: campus-audience.png
+    alt: Attendees seated in a lecture hall at HKUST(GZ).
+    caption: The audience at the rescue robotics campus event.
   - image: campus-group-photo.png
     alt: Participants pose for a group photo at HKUST(GZ).
     caption: Group photo at the rescue robotics campus event.
