@@ -16,9 +16,6 @@ gallery:
   - image: ruipeng-presentation.png
     alt: Ruipeng Yang presents slides on indoor fire rescue challenges.
     caption: Ruipeng Yang discusses indoor fire rescue challenges.
-  - image: event-attendee.jpg
-    alt: Ruipeng Yang seated at the rescue robotics campus event.
-    caption: Ruipeng Yang at the rescue robotics campus event.
   - image: competition-review.jpg
     alt: The PAIRS-Pi presentation reviews quadruped supply delivery and terrain simulation.
     caption: The PAIRS-Pi presentation reviews quadruped supply delivery and terrain simulation.
