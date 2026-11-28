@@ -13,12 +13,18 @@ gallery:
   - image: team-talk.png
     alt: Yinuo Chen speaks at the campus event.
     caption: Yinuo Chen speaks at the campus event.
+  - image: ruipeng-presentation.png
+    alt: Ruipeng Yang presents slides on indoor fire rescue challenges.
+    caption: Ruipeng Yang discusses indoor fire rescue challenges.
   - image: event-attendee.jpg
     alt: Ruipeng Yang seated at the rescue robotics campus event.
     caption: Ruipeng Yang at the rescue robotics campus event.
   - image: competition-review.jpg
     alt: The PAIRS-Pi presentation reviews quadruped supply delivery and terrain simulation.
     caption: The PAIRS-Pi presentation reviews quadruped supply delivery and terrain simulation.
+  - image: campus-group-photo.png
+    alt: Participants pose for a group photo at HKUST(GZ).
+    caption: Group photo at the rescue robotics campus event.
 external_url: https://tech.chinadaily.com.cn/a/202611/27/WS6b094a91e4b0e14252fce015.html
 external_label: Read the China Daily report
 ---
